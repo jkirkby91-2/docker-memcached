@@ -17,8 +17,11 @@ rm -rf /usr/share/man/??_*
 # Port to expose (default: 11211)
 EXPOSE 11211
 
+# Copy apparmor conf
 COPY confs/apparmor/memcached.conf /etc/apparmor/memcached.conf
 
+# Copy supervisor conf
 COPY confs/supervisord/supervisord.conf /etc/supervisord.conf
 
+# Set entrypoint
 CMD ["/usr/bin/supervisord"]
