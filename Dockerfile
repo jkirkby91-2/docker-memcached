@@ -24,4 +24,4 @@ COPY confs/apparmor/memcached.conf /etc/apparmor/memcached.conf
 COPY confs/supervisord/supervisord.conf /etc/supervisord.conf
 
 # Set entrypoint
-CMD ["/usr/bin/supervisord"]
+CMD ["/usr/bin/supervisord", "-n -c /etc/supervisord.conf"]
