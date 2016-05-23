@@ -23,7 +23,7 @@ COPY confs/apparmor/memcached.conf /etc/apparmor/memcached.conf
 # Copy supervisor conf
 COPY confs/supervisord/supervisord.conf /etc/supervisord.conf
 
-RUN curl -s https://gist.githubusercontent.com/jkirkby91/df5436ed5625f3c8e3648f402ac79a80/raw/4e130a53fb0f41632d966fb5accda06951054b14/start.sh -O /start.sh
+COPY start.sh /start.sh
 
 RUN chmod 777 /start.sh
 
