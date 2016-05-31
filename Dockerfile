@@ -18,7 +18,10 @@ rm -rf /usr/share/man/??_*
 EXPOSE 11211
 
 # Copy apparmor conf
-COPY confs/apparmor/memcached.conf /etc/apparmor/memcached.conf
+#COPY confs/apparmor/memcached.conf /etc/apparmor/memcached.conf
+
+# Copy memcached conf
+COPY confs/memcached/memcached.conf /etc/memcached.conf
 
 # Copy supervisor conf
 COPY confs/supervisord/supervisord.conf /etc/supervisord.conf
