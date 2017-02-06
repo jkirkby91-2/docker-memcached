@@ -4,32 +4,6 @@ MAINTAINER James Kirkby <jkirkby91@gmail.com>
 
 RUN groupadd -r memcache && useradd -r -g memcache memcache
 
-# Install packages specific to our project
-RUN apt-get update && \
-apt-get upgrade -y && \
-apt-get install libevent-2.0-5 wget -y --force-yes --fix-missing --no-install-recommends && \
-apt-get remove --purge -y software-properties-common build-essential  && \
-apt-get autoremove -y && \
-apt-get clean && \
-apt-get autoclean && \
-echo -n > /var/lib/apt/extended_states && \
-rm -rf /var/lib/apt/lists/* && \
-rm -rf /usr/share/man/?? && \
-rm -rf /usr/share/man/??_*
-
-# grab gosu for easy step-down from root
-ENV GOSU_VERSION 1.7
-
-RUN set -x \
-	&& wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$(dpkg --print-architecture)" \
-	&& wget -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$(dpkg --print-architecture).asc" \
-	&& export GNUPGHOME="$(mktemp -d)" \
-	&& gpg --keyserver ha.pool.sks-keyservers.net --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4 \
-	&& gpg --batch --verify /usr/local/bin/gosu.asc /usr/local/bin/gosu \
-	&& rm -r "$GNUPGHOME" /usr/local/bin/gosu.asc \
-	&& chmod +x /usr/local/bin/gosu \
-	&& gosu nobody true
-
 ENV MEMCACHED_VERSION 1.4.34
 
 ENV MEMCACHED_SHA1 7c7214f5183c6e20c22b243e21ed1ffddb91497e
