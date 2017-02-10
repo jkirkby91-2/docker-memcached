@@ -11,13 +11,12 @@ ENV MEMCACHED_SHA1 7c7214f5183c6e20c22b243e21ed1ffddb91497e
 RUN buildDeps=' \
 		gcc \
 		libc6-dev \
-		libevent-dev \
 		make \
 		perl \
 		wget \
 	' \
 	&& set -x \
-	&& apt-get update && apt-get install -y $buildDeps --no-install-recommends \
+	&& apt-get update && apt-get install -y $buildDeps libevent-dev --no-install-recommends \
 	&& rm -rf /var/lib/apt/lists/* \
 	&& wget -O memcached.tar.gz "http://memcached.org/files/memcached-$MEMCACHED_VERSION.tar.gz" \
 	&& echo "$MEMCACHED_SHA1  memcached.tar.gz" | sha1sum -c - \
@@ -34,8 +33,6 @@ RUN buildDeps=' \
 COPY docker-entrypoint.sh /usr/local/bin/
 
 RUN ln -s usr/local/bin/docker-entrypoint.sh /entrypoint.sh # backwards compat
-
-ENTRYPOINT ["docker-entrypoint.sh"]
 
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
@@ -55,13 +52,15 @@ COPY start.sh /start.sh
 
 RUN chmod 777 /start.sh
 
-RUN mkdir /data && chown memcache:memcache /data
+RUN chown memcache:memcache /srv
 
-VOLUME /data
+VOLUME /srv
 
-WORKDIR /data
+WORKDIR /srv
 
 USER memcache
+
+ENTRYPOINT ["docker-entrypoint.sh"]
 
 # Set entrypoint
 CMD ["/bin/bash", "/start.sh"]
