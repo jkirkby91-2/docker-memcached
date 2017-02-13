@@ -40,7 +40,7 @@ RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 EXPOSE 11211
 
 # Copy apparmor conf
-COPY confs/apparmor/memcached.conf /etc/apparmor/memcached.conf
+COPY confs/apparmor/memcached.conf /etc/apparmor.d/memcached.conf
 
 # Copy memcached conf
 COPY confs/memcached/memcached.conf /etc/memcached.conf
